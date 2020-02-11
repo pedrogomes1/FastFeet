@@ -1,0 +1,19 @@
+yarn init -y
+yarn add express
+yarn add nodemon -D
+ yarn add eslint
+ yarn eslint --init
+ yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+ yarn eslint --fix src --ext .js
+yarn add sequelize
+yarn add sequelize-cli -D
+yarn add pg pg-hstore
+yarn sequelize migration:create --name=create-users
+yarn sequelize db:migrate
+yarn add bcryptjs
+yarn add jsonwebtoken
+yarn add yup
+yar add multer
+yarn add date-fns@next
+yarn add nodemailer
+yarn add express-handlebars nodemailer-express-handlebars
