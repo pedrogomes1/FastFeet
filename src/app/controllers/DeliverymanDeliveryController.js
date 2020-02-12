@@ -28,7 +28,13 @@ class DeliverymanDeliveryController {
 
     const findDelivery = await Delivery.findAll({
       where: { canceled_at: null, end_date: null },
-      attributes: ["recipient_id", "product", "start_date", "end_date"],
+      attributes: [
+        ["id", "id_delivery"],
+        "recipient_id",
+        "product",
+        "start_date",
+        "end_date"
+      ],
       limit: 20,
       offset: (page - 1) * 20, // Qnts registros eu quero pular
       include: [
