@@ -170,7 +170,7 @@ class DeliveryController {
   }
 
   async index(req, res) {
-    const deliveryman = await Delivery.findAll({
+    const delivery = await Delivery.findAll({
       attributes: [
         "id",
         "recipient_id",
@@ -178,11 +178,12 @@ class DeliveryController {
         "product",
         "start_date",
         "end_date",
-        "canceled_at"
+        "canceled_at",
+        "signature_id"
       ]
     });
 
-    return res.json(deliveryman);
+    return res.json(delivery);
   }
 }
 
