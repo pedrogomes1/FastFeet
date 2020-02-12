@@ -46,7 +46,7 @@ class RecipientController {
     const recipient = await Recipient.findByPk(req.params.id);
 
     if (!recipient) {
-      return res.status(401).json({ message: "Usuário não existe" });
+      return res.status(400).json("Recipient not found");
     }
 
     const {
