@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import Deliveryman from "../models/Deliveryman";
+import File from "../models/File";
 
 class DeliverymanController {
   async store(req, res) {
@@ -53,19 +54,29 @@ class DeliverymanController {
       avatar_id: Yup.number().positive()
     });
 
+    const { avatar_id, email } = req.body;
+
+    const avatar = await File.findOne({
+      where: { id: avatar_id }
+    });
+
+    if (!avatar) {
+      return res.status(400).json("Avatar not found");
+    }
+    // Verificar se o usuário está atualizando um e-mail que já esta cadastrado
+    if (email && email !== deliveryman.email) {
+      const userExists = await Deliveryman.findOne({ where: { email } });
+
+      if (userExists) {
+        return res.status(400).json({ error: "Email já cadastrado" });
+      }
+    }
+
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json("Validation fails");
     }
 
-    const avatarExists = await Deliveryman.findOne({
-      where: { avatar_id: req.body.avatar_id }
-    });
-
-    if (avatarExists) {
-      return res.status(400).json("Avatar é o mesmo ou inexistente ");
-    }
-
-    const { email, name, avatar_id } = await deliveryman.update(req.body);
+    const { name } = await deliveryman.update(req.body);
 
     return res.json({ email, name, avatar_id });
   }
