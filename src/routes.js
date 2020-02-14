@@ -21,7 +21,7 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 // Login
-routes.post("/sesions", SessionController.store);
+routes.post("/sesions", isAdmin, SessionController.store);
 
 // Encomenda de cada entregador
 routes.get("/listdelivery", DeliverymanDelivery.index);
@@ -43,12 +43,25 @@ routes.post("/delivery/:id/problems", DeliveryProblems.store);
 routes.get("/delivery/:id/problems", DeliveryProblems.index);
 routes.delete("/problem/:id/cancel-delivery", DeliveryProblems.delete);
 
+routes.post("/recipient", isAdmin, authMiddlewares, RecipientController.store);
+routes.put(
+  "/recipient/:id",
+  isAdmin,
+  authMiddlewares,
+  RecipientController.update
+);
+routes.delete("/recipient/:id", authMiddlewares, RecipientController.delete);
+routes.get("/recipient", RecipientController.index);
+routes.get("/recipient/:id", RecipientController.show);
+
+routes.post(
+  "/files",
+  upload.single("file"),
+  authMiddlewares,
+  FileController.store
+);
+
 routes.use(authMiddlewares);
-
-routes.post("/recipient", isAdmin, RecipientController.store);
-routes.put("/recipient/:id", isAdmin, RecipientController.update);
-
-routes.post("/files", upload.single("file"), FileController.store);
 // Entregadores
 routes.post("/deliveryman", Deliveryman.store);
 routes.get("/deliveryman", Deliveryman.index);
