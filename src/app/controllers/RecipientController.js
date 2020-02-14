@@ -60,6 +60,33 @@ class RecipientController {
 
     return res.json({ street, number, complement, state, city, cep });
   }
+
+  async index(req, res) {
+    const recipient = await Recipient.findAll();
+
+    return res.json(recipient);
+  }
+
+  async show(req, res) {
+    const recipient = await Recipient.findByPk(req.params.id);
+
+    if (!recipient) {
+      return res.status(400).json("Recipient not found");
+    }
+    return res.json(recipient);
+  }
+
+  async delete(req, res) {
+    const recipient = await Recipient.findByPk(req.params.id);
+
+    if (!recipient) {
+      return res.status(400).json("Recipient not found");
+    }
+
+    await recipient.destroy();
+
+    return res.json("");
+  }
 }
 
 export default new RecipientController();
