@@ -54,16 +54,13 @@ class DeliverymanController {
       avatar_id: Yup.number().positive()
     });
 
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json("Validation fails");
+    }
+
     const { avatar_id, email } = req.body;
 
-    const avatar = await File.findOne({
-      where: { id: avatar_id }
-    });
-
-    if (!avatar) {
-      return res.status(400).json("Avatar not found");
-    }
-    // Verificar se o usuário está atualizando um e-mail que já esta cadastrado
+    // Se quiser alterar só o av
     if (email && email !== deliveryman.email) {
       const userExists = await Deliveryman.findOne({ where: { email } });
 
@@ -72,10 +69,15 @@ class DeliverymanController {
       }
     }
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json("Validation fails");
-    }
+    if (avatar_id) {
+      const avatar = await File.findOne({
+        where: { id: avatar_id }
+      });
 
+      if (!avatar) {
+        return res.status(400).json("Avatar not found");
+      }
+    }
     const { name } = await deliveryman.update(req.body);
 
     return res.json({ email, name, avatar_id });
