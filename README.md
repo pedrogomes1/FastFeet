@@ -73,7 +73,7 @@ Segue abaixo todas as rotas da aplicação:
 | /deliveryman/:id | PUT     | {recipient_id, deliveryman_id, product, start_date, end_date, signature_id}         | JWT    |     |
 | /deliveryman/:id | DELETE  | {id}                                                                                | JWT    |     |
 
-<h4>* Delivery (destinatários) (/recipient)</h4>
+<h4>* Recipient (destinatários) (/recipient)</h4>
 
 | Path           | Methods | Params(JSON) / Body                              | Header |
 | -------------- | ------- | ------------------------------------------------ | ------ |
